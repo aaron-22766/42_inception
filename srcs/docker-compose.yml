@@ -1,0 +1,52 @@
+version: '3.9'
+
+services:
+  nginx:
+    build: ./requirements/nginx/
+    image: nginx-image:inception
+    ports:
+      - "xx:xx" #TODO
+    env_file:
+      - .env
+    networks:
+      - networkName #TODO
+    args:
+      - argument=value #TODO
+    restart: unless-stopped #TODO
+
+  mariadb:
+    build: ./requirements/mriadb/
+    image: mariadb-image:inception
+    ports:
+      - "xx:xx" #TODO
+    volumes:
+      - "wp-db:/home/arabenst/data:ro" #TODO, ro ?
+    env_file:
+      - .env
+    networks:
+      - networkName #TODO
+    restart: unless-stopped #TODO
+
+  wordpress:
+    build: ./requirements/wordpress/
+    image: wordpress-image:inception
+    ports:
+      - "xx:xx" #TODO
+    depends_on:
+      - nginx #???
+      - mariadb #???
+    volumes:
+      - "wp-src:/home/arabenst/data:ro" #TODO, ro ?
+    env_file:
+      - .env
+    networks:
+      - networkName #TODO
+    restart: unless-stopped #TODO
+
+volumes:
+  wp-database:
+  wp-files:
+
+networks:
+  inception: #TODO
+    driver: bridge
