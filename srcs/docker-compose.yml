@@ -2,51 +2,57 @@ version: '3.9'
 
 services:
   nginx:
+    container_name: inception-nginx
+    image: inception-nginx
     build: ./requirements/nginx/
-    image: nginx-image:inception
     ports:
-      - "xx:xx" #TODO
-    env_file:
-      - .env
+      - "443:443"
     networks:
-      - networkName #TODO
-    args:
-      - argument=value #TODO
-    restart: unless-stopped #TODO
+      - inception
+    depends_on:
+      - wordpress
+    restart: on-failure
 
   mariadb:
-    build: ./requirements/mriadb/
-    image: mariadb-image:inception
-    ports:
-      - "xx:xx" #TODO
+    container_name: inception-mariadb
+    image: inception-mariadb
+    build: ./requirements/mariadb/
     volumes:
-      - "wp-db:/home/arabenst/data:ro" #TODO, ro ?
+      - inception-database:/var/lib/mysql
     env_file:
       - .env
     networks:
-      - networkName #TODO
-    restart: unless-stopped #TODO
+      - inception
+    restart: on-failure
 
   wordpress:
+    container_name: inception-wordpress
+    image: inception-wordpress
     build: ./requirements/wordpress/
-    image: wordpress-image:inception
-    ports:
-      - "xx:xx" #TODO
     depends_on:
-      - nginx #???
-      - mariadb #???
+      - mariadb
     volumes:
-      - "wp-src:/home/arabenst/data:ro" #TODO, ro ?
+      - inception-files:/var/www/html
     env_file:
       - .env
     networks:
-      - networkName #TODO
-    restart: unless-stopped #TODO
+      - inception
+    restart: on-failure
 
 volumes:
-  wp-database:
-  wp-files:
+  inception-database:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $HOME/inception/volumes/database
+  inception-files:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $HOME/inception/volumes/files
 
 networks:
-  inception: #TODO
+  inception:
     driver: bridge
