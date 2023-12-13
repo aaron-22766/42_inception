@@ -6,7 +6,9 @@ ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PW}';
 FLUSH PRIVILEGES;
 EXIT;" > /tmp/setup_database.sql
 
-rc-service mariadb start;
-mariadb -u root < /tmp/setup_database.sql;
-rc-service mariadb stop;
-exec mariadbd -u root;
+mkdir -p /run/mysqld
+mkdir -p /var/lib/mysql
+
+mysql_install_db --user=mysql --datadir=/var/lib/mysql
+
+exec mariadbd --no-defaults --user=root --datadir=/var/lib/mysql --init-file=/tmp/setup_database.sql
