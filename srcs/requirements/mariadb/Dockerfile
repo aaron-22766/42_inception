@@ -6,13 +6,9 @@ RUN apk update \
  && touch /run/openrc/softlevel
 
 COPY ./conf/my.cnf /etc/my.cnf
-
-RUN /etc/init.d/mariadb setup
-
-COPY ./tools/mariadb.sql /tmp/mariadb.sql
 COPY ./tools/start_mariadb.sh /tmp/start_mariadb.sh
 
-RUN chmod +x /tmp/start_mariadb.sh
+RUN /etc/init.d/mariadb setup
 
 EXPOSE 3306
 
