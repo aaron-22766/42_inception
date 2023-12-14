@@ -7,7 +7,7 @@ RUN apk update \
     -out /etc/ssl/certs/nginx-selfsigned.crt \
     -subj "/C=DE/ST=BW/L=Heilbronn/O=42/OU=student/CN=[arabenst.42.fr](http://arabenst.42.fr/)/UID=arabenst"
 
-COPY ./conf/nginx.conf /etc/nginx/sites-available/default/nginx.conf
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 443
 

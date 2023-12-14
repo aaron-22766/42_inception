@@ -11,9 +11,9 @@
 # **************************************************************************** #
 
 ENV_FILE := ./srcs/.env
-VOLUMES := $(HOME)/inception/volumes
+DATA := $(HOME)/data
 
-up: $(ENV_FILE) $(VOLUMES)
+up: $(ENV_FILE) $(DATA)
 	docker-compose -f ./srcs/docker-compose.yml up --build -d
 
 down:
@@ -44,12 +44,11 @@ rmi: rm
 		docker rmi inception-mariadb; fi
 
 clean:
-	@rm -rf $(VOLUMES)/database/*
-	@rm -rf $(VOLUMES)/files/*
-	@if docker volume ls | grep -q inception-database; then \
-		docker volume rm -f inception-database; fi
-	@if docker volume ls | grep -q inception-files; then \
-		docker volume rm -f inception-files; fi
+	@rm -rf $(DATA)
+	@if docker volume ls | grep -q srcs_inception-database; then \
+		sudo docker volume rm -f srcs_inception-database; fi
+	@if docker volume ls | grep -q srcs_inception-files; then \
+		sudo docker volume rm -f srcs_inception-files; fi
 
 fclean: rmi clean
 
@@ -57,8 +56,8 @@ $(ENV_FILE):
 	@echo "Missing .env file"
 	@exit 1
 
-$(VOLUMES):
-	mkdir -p $(VOLUMES)/database
-	mkdir -p $(VOLUMES)/files
+$(DATA):
+	mkdir -p $(DATA)/inception-database
+	mkdir -p $(DATA)/inception-files
 
 .PHONY: up down stop rm rmi clean fclean

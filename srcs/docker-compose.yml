@@ -45,13 +45,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: $HOME/inception/volumes/database
+      device: $HOME/data/inception-database
   inception-files:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: $HOME/inception/volumes/files
+      device: $HOME/data/inception-files
 
 networks:
   inception:
