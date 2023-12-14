@@ -7,6 +7,8 @@ services:
     build: ./requirements/nginx/
     ports:
       - "443:443"
+    volumes:
+      - inception-files:/var/www/html
     networks:
       - inception
     depends_on:
@@ -19,10 +21,10 @@ services:
     build: ./requirements/mariadb/
     volumes:
       - inception-database:/var/lib/mysql
-    env_file:
-      - .env
     networks:
       - inception
+    env_file:
+      - .env
     restart: on-failure
 
   wordpress:
@@ -33,10 +35,10 @@ services:
       - mariadb
     volumes:
       - inception-files:/var/www/html
-    env_file:
-      - .env
     networks:
       - inception
+    env_file:
+      - .env
     restart: on-failure
 
 volumes:

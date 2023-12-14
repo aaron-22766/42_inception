@@ -24,7 +24,7 @@ WORKDIR /var/www/html
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
  && chmod +x wp-cli.phar \
  && mv wp-cli.phar /usr/local/bin/wp \
- && wp core download --allow-root
+ && wp core download --allow-root --path=/var/www/html
 
 COPY ./tools/start_wordpress.sh /tmp/start_wordpress.sh
 
