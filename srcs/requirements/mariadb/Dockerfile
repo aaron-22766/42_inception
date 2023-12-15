@@ -13,6 +13,4 @@ COPY ./tools/start_mariadb.sh /tmp/start_mariadb.sh
 
 RUN chmod +x /tmp/start_mariadb.sh
 
-EXPOSE 3306
-#????????
 ENTRYPOINT ["/tmp/start_mariadb.sh"]

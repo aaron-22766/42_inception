@@ -10,6 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
+define run_if
+	@if $(2) | grep -q $(1); then \
+		$(3) $(1); fi
+endef
+
 ENV_FILE := ./srcs/.env
 DATA := $(HOME)/data
 
@@ -19,36 +24,30 @@ up: $(ENV_FILE) $(DATA)
 down:
 	docker-compose -f ./srcs/docker-compose.yml down
 
+status:
+	@docker ps -a
+	@docker images
+	@docker volume ls
+
 stop:
-	@if docker ps | grep -q inception-wordpress; then \
-		docker stop inception-wordpress; fi
-	@if docker ps | grep -q inception-nginx; then \
-		docker stop inception-nginx; fi
-	@if docker ps | grep -q inception-mariadb; then \
-		docker stop inception-mariadb; fi
+	$(call run_if, inception-wordpress, docker ps, docker stop)
+	$(call run_if, inception-nginx, docker ps, docker stop)
+	$(call run_if, inception-mariadb, docker ps, docker stop)
 
 rm: stop
-	@if docker ps -a | grep -q inception-wordpress; then \
-		docker rm inception-wordpress; fi
-	@if docker ps -a | grep -q inception-nginx; then \
-		docker rm inception-nginx; fi
-	@if docker ps -a | grep -q inception-mariadb; then \
-		docker rm inception-mariadb; fi
+	$(call run_if, inception-wordpress, docker ps -a, docker rm)
+	$(call run_if, inception-nginx, docker ps -a, docker rm)
+	$(call run_if, inception-mariadb, docker ps -a, docker rm)
 
 rmi: rm
-	@if docker images | grep -q inception-wordpress; then \
-		docker rmi inception-wordpress; fi
-	@if docker images | grep -q inception-nginx; then \
-		docker rmi inception-nginx; fi
-	@if docker images | grep -q inception-mariadb; then \
-		docker rmi inception-mariadb; fi
+	$(call run_if, inception-wordpress, docker images, docker rmi)
+	$(call run_if, inception-nginx, docker images, docker rmi)
+	$(call run_if, inception-mariadb, docker images, docker rmi)
 
 clean:
 	@sudo rm -rf $(DATA)
-	@if docker volume ls | grep -q srcs_inception-database; then \
-		docker volume rm -f srcs_inception-database; fi
-	@if docker volume ls | grep -q srcs_inception-files; then \
-		docker volume rm -f srcs_inception-files; fi
+	$(call run_if, inception-database, docker volume ls, docker volume rm -f)
+	$(call run_if, inception-files, docker volume ls, docker volume rm -f)
 
 fclean: stop rmi clean
 

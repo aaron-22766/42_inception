@@ -43,12 +43,14 @@ services:
 
 volumes:
   inception-database:
+    name: inception-database
     driver: local
     driver_opts:
       type: none
       o: bind
       device: $HOME/data/inception-database
   inception-files:
+    name: inception-files
     driver: local
     driver_opts:
       type: none
