@@ -4,9 +4,19 @@ RUN apk update \
  && apk add mariadb-client \
             php81 \
             php81-fpm \
-            php81-mysqli \
             php81-openssl \
-            php81-phar
+            php81-mysqli \
+            php81-phar \
+            php81-common \
+            php81-dom \
+            php81-intl \
+            php81-pecl-igbinary \
+            php81-json \
+            php81-fileinfo \
+            php81-mbstring \
+            php81-zip \
+            php81-xml \
+            php81-exif
 
 WORKDIR /var/www/html
 

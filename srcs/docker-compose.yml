@@ -2,13 +2,13 @@ version: '3.9'
 
 services:
   nginx:
-    container_name: inception-nginx
-    image: inception-nginx
+    container_name: nginx
+    image: nginx
     build: ./requirements/nginx/
     ports:
       - "443:443"
     volumes:
-      - inception-files:/var/www/html
+      - wordpress:/var/www/html
     networks:
       - inception
     depends_on:
@@ -16,11 +16,11 @@ services:
     restart: on-failure
 
   mariadb:
-    container_name: inception-mariadb
-    image: inception-mariadb
+    container_name: mariadb
+    image: mariadb
     build: ./requirements/mariadb/
     volumes:
-      - inception-database:/var/lib/mysql
+      - database:/var/lib/mysql
     networks:
       - inception
     env_file:
@@ -28,13 +28,13 @@ services:
     restart: on-failure
 
   wordpress:
-    container_name: inception-wordpress
-    image: inception-wordpress
+    container_name: wordpress
+    image: wordpress
     build: ./requirements/wordpress/
     depends_on:
       - mariadb
     volumes:
-      - inception-files:/var/www/html
+      - wordpress:/var/www/html
     networks:
       - inception
     env_file:
@@ -42,21 +42,22 @@ services:
     restart: on-failure
 
 volumes:
-  inception-database:
-    name: inception-database
+  database:
+    name: database
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: $HOME/data/inception-database
-  inception-files:
-    name: inception-files
+      device: $HOME/data/database
+  wordpress:
+    name: wordpress
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: $HOME/data/inception-files
+      device: $HOME/data/wordpress
 
 networks:
   inception:
+    name: inception
     driver: bridge
