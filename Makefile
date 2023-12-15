@@ -44,13 +44,15 @@ rmi: rm
 		docker rmi inception-mariadb; fi
 
 clean:
-	@rm -rf $(DATA)
+	@sudo rm -rf $(DATA)
 	@if docker volume ls | grep -q srcs_inception-database; then \
-		sudo docker volume rm -f srcs_inception-database; fi
+		docker volume rm -f srcs_inception-database; fi
 	@if docker volume ls | grep -q srcs_inception-files; then \
-		sudo docker volume rm -f srcs_inception-files; fi
+		docker volume rm -f srcs_inception-files; fi
 
-fclean: rmi clean
+fclean: stop rmi clean
+
+re: fclean up
 
 $(ENV_FILE):
 	@echo "Missing .env file"
