@@ -19,10 +19,10 @@ ENV_FILE := ./srcs/.env
 DATA := $(HOME)/data
 
 up: $(ENV_FILE) $(DATA)
-	docker-compose -f ./srcs/docker-compose.yml up --build -d
+	docker compose -f ./srcs/docker-compose.yml up --build -d
 
 down:
-	docker-compose -f ./srcs/docker-compose.yml down
+	docker compose -f ./srcs/docker-compose.yml down
 
 stop:
 	$(call _if, wordpress, docker ps, docker stop)
