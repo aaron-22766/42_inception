@@ -47,7 +47,7 @@ clean:
 
 fclean: stop rmi clean
 
-re: fclean up
+re: stop rmi up
 
 docker_status:
 	@echo "\n\e[4mCONTAINERS:\e[0m"
