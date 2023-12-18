@@ -1,13 +1,14 @@
 #!/bin/sh
 
 if [ ! -f /var/www/html/wp-config.php ]; then
-    while ! wp config create --allow-root \
-                            --url=$DOMAIN_NAME \
-                            --dbname=$DB_NAME \
-                            --dbuser=$DB_USER \
-                            --dbpass=$DB_USER_PWD \
-                            --dbhost=mariadb:3306 \
-                            --force 2> /dev/null
+    while ! wp config create 2> /dev/null\
+                    --allow-root \
+                    --url=$DOMAIN_NAME \
+                    --dbname=$DB_NAME \
+                    --dbuser=$DB_USER \
+                    --dbpass=$DB_USER_PWD \
+                    --dbhost=mariadb:3306 \
+                    --force
     do
         echo 1>&2 "Waiting for MariaDB to be ready..."
         sleep 1
