@@ -25,7 +25,9 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
  && mv wp-cli.phar /usr/local/bin/wp \
  && wp core download --allow-root \
  && adduser -S www-data -G www-data \
- && chown -R www-data:www-data .
+ && chown -R www-data:www-data . \
+ && find ./wp-content/plugins/ -mindepth 1 -maxdepth 1 -type d -exec rm -r \
+    -- {} \; -or -type f -name "*" ! -name "index.php" -exec rm -- {} \;
 
 COPY ./conf/www.conf /etc/php81/php-fpm.d/www.conf
 COPY ./tools/start_wordpress.sh /tmp/start_wordpress.sh

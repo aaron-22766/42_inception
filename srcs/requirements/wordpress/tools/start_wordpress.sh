@@ -26,6 +26,8 @@ if [ ! -f /var/www/html/wp-config.php ]; then
                 --role=author \
                 --user_pass=$WP_USER_PWD
 
+    wp post delete $(wp post list --post_type=any --format=ids)
+
     wp option update home $DOMAIN_NAME
     wp option update siteurl $DOMAIN_NAME
 fi
