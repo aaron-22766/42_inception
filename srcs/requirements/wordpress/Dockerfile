@@ -31,10 +31,10 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
  && chmod g+s . /var/log/php81 \
  && chmod 775 . /var/log/php81 \
  && find ./wp-content/plugins/ -mindepth 1 -maxdepth 1 -type d -exec rm -r \
-    -- {} \; -or -type f -name "*" ! -name "index.php" -exec rm -- {} \; \
- && sed -i 's/;extension=xmlreader/extension=xmlreader/' /etc/php81/php.ini
+    -- {} \; -or -type f -name "*" ! -name "index.php" -exec rm -- {} \;
 
 COPY ./conf/www.conf /etc/php81/php-fpm.d/www.conf
+COPY ./conf/php.ini /etc/php81/php.ini
 COPY ./tools/start_wordpress.sh /tmp/start_wordpress.sh
 
 RUN chmod +x /tmp/start_wordpress.sh

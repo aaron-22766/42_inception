@@ -6,6 +6,6 @@ ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PWD';
 FLUSH PRIVILEGES;" > /tmp/setup_database.sql
 
 rc-service mariadb start;
-mariadb -u root < /tmp/setup_database.sql;
+mariadb -u root -p4321 < /tmp/setup_database.sql;
 rc-service mariadb stop;
 exec mariadbd -u root;
