@@ -24,7 +24,7 @@ This project aims to broaden your knowledge of system administration by using Do
 
 ## 🛠 Usage
 
-#### Run
+### How to run
 
 * Have **Docker Desktop** installed and running
 * Add the line `127.0.0.1 arabenst.42.fr` to `/etc/hosts` to redirect the required domain name to localhost
@@ -32,7 +32,7 @@ This project aims to broaden your knowledge of system administration by using Do
 * visit `arabenst.42.fr` in your browser
 * run `make down` to stop
 
-#### Upload wordpress backup
+### Upload wordpress backup
 
 Because newer versions of the plugin get stuck on upload...
 
