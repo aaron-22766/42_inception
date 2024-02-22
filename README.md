@@ -51,7 +51,9 @@ Because newer versions of the plugin get stuck on upload...
   * WordPress database
   * WordPress website files
 * A **Docker Network** establishes the connection between your containers
+
 <br>
+
 * Each container is launched from a **Docker Image** which is built from a  **Dockerfile**:
   * pulls a base image (I decided to only use **Alpine**, as it's more light-weight and therefore installs quicker than **Debian**)
   * installs and configures programs as required
